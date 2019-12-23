@@ -42,20 +42,16 @@ If you want to change the language use the ```setLanguage(language:)``` method b
 
   let selectedLanguage: Languages = sender.tag == 1 ? .en : .ar
         
-  // change the language.
-  LanguageManager.shared.setLanguage(language: selectedLanguage,
-                                     viewControllerFactory: { title -> UIViewController in
-    // you can check the title to set a specific for specific scene.
-    print(title ?? "")
-    // get the storyboard.
-    let storyboard = UIStoryboard(name: "Main", bundle: nil)
-    // instantiate the view controller that you want to show after changing the language.
-    return storyboard.instantiateInitialViewController()!
-  }) { view in
+  let storyboard = UIStoryboard(name: "Main", bundle: nil)
+  // the view controller that you want to show after changing the language
+  let viewController = storyboard.instantiateInitialViewController()
+        
+  // change the language
+  LanguageManager.shared.setLanguage(language: selectedLanguage, rootViewController: viewController, animation: { view in
     // do custom animation
     view.transform = CGAffineTransform(scaleX: 2, y: 2)
     view.alpha = 0
-  }
+  })
 }
 ```
 
@@ -87,8 +83,6 @@ Or you can use [Carthage](https://github.com/Carthage/Carthage).
 ```
 github "Abedalkareem/LanguageManager-iOS"
 ```
-
-You can also use [Swift Package Manager](https://developer.apple.com/documentation/xcode/adding_package_dependencies_to_your_app).
 
 ## Note
 
